@@ -7,7 +7,7 @@
   <meta name="description" content="Jaewoo Kang — work across disability access and education, and end-of-life care.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,7 +21,7 @@
     <main>
       <section class="hero">
         <figure class="portrait">
-          <img src="assets/photo.jpg" alt="Portrait of Jaewoo Kang" width="700" height="800">
+          <img src="assets/photo.jpg" alt="Portrait of Jaewoo Kang" width="1120" height="1400">
         </figure>
 
         <div class="about">
@@ -38,34 +38,81 @@
         </nav>
       </section>
 
-      <section class="projects" aria-label="Projects">
-        <a class="card card--1" href="#">
-          <span class="card__label">Project 1</span>
-          <h2 class="card__title">Project title</h2>
-        </a>
-        <a class="card card--2" href="#">
-          <span class="card__label">Project 2</span>
-          <h2 class="card__title">Project title</h2>
-          <p class="card__desc">One line about what this project is and what you did.</p>
-        </a>
-        <a class="card card--3" href="#">
-          <span class="card__label">Project 3</span>
-          <h2 class="card__title">Project title</h2>
-          <p class="card__desc">One line about what this project is and what you did.</p>
-        </a>
-        <a class="card card--4" href="#">
-          <span class="card__label">Project 4</span>
-          <h2 class="card__title">Project title</h2>
-          <p class="card__desc">One line about what this project is and what you did.</p>
-        </a>
+      <section class="work" id="work" aria-labelledby="work-title">
+        <h2 class="work__title" id="work-title">selected <em>work</em></h2>
+
+        <div class="work__grid">
+          <a class="project reveal" href="#">
+            <div class="project__media">
+              <img src="assets/projects/project-1.jpg" alt="" width="1200" height="750" loading="lazy">
+            </div>
+            <div class="project__meta">
+              <h3 class="project__title">Project one</h3>
+              <span class="project__tag">research</span>
+            </div>
+            <p class="project__desc">One or two lines on what this was, who it was for, and what you did.</p>
+          </a>
+
+          <a class="project reveal" href="#">
+            <div class="project__media">
+              <img src="assets/projects/project-2.jpg" alt="" width="1200" height="750" loading="lazy">
+            </div>
+            <div class="project__meta">
+              <h3 class="project__title">Project two</h3>
+              <span class="project__tag">education</span>
+            </div>
+            <p class="project__desc">One or two lines on what this was, who it was for, and what you did.</p>
+          </a>
+
+          <a class="project reveal" href="#">
+            <div class="project__media">
+              <img src="assets/projects/project-3.jpg" alt="" width="1200" height="750" loading="lazy">
+            </div>
+            <div class="project__meta">
+              <h3 class="project__title">Project three</h3>
+              <span class="project__tag">access</span>
+            </div>
+            <p class="project__desc">One or two lines on what this was, who it was for, and what you did.</p>
+          </a>
+
+          <a class="project reveal" href="#">
+            <div class="project__media">
+              <img src="assets/projects/project-4.jpg" alt="" width="1200" height="750" loading="lazy">
+            </div>
+            <div class="project__meta">
+              <h3 class="project__title">Project four</h3>
+              <span class="project__tag">care</span>
+            </div>
+            <p class="project__desc">One or two lines on what this was, who it was for, and what you did.</p>
+          </a>
+        </div>
+
+        <a class="work__more" href="#">view more projects <span class="arrow" aria-hidden="true">→</span></a>
       </section>
     </main>
 
     <footer class="footer">
-      <span>© 2026 Jaewoo Kang</span>
-      <a href="mailto:you@example.com">you@example.com</a>
+      <div class="footer__contact">
+        <p>email: <a href="mailto:you@example.com">you@example.com</a></p>
+        <p class="footer__muted">available for: collaborations &amp; research</p>
+      </div>
+      <div>
+        <p class="footer__label">pages</p>
+        <ul>
+          <li><a href="index.html">pro</a></li>
+          <li><a href="personal.html">per</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__label">socials</p>
+        <ul>
+          <li><a href="#" rel="me">linkedin</a></li>
+          <li><a href="#" rel="me">google scholar</a></li>
+        </ul>
+      </div>
     </footer>
 
   </div>
+  <script src="script.js"></script>
 </body>
 </html>
