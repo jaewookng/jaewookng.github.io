@@ -12,6 +12,7 @@
 </head>
 <body>
   <div class="dots" aria-hidden="true"><div class="dots__glow"></div></div>
+  <div class="wash" aria-hidden="true"></div>
   <div class="wrap">
 
     <header class="topbar">
@@ -31,26 +32,20 @@
         </div>
 
         <nav class="mode" aria-label="Professional or personal">
-          <div class="mode__row">
-            <!-- Erlenmeyer flask of phenolphthalein: clear at pH 7 (Pro), pink at pH 10 (Per) -->
-            <svg class="flask" viewBox="0 0 48 56" aria-hidden="true" focusable="false">
-              <defs>
-                <clipPath id="flask-clip">
-                  <path d="M18 3h12v15l13.5 26a4 4 0 0 1-3.5 6H8a4 4 0 0 1-3.5-6L18 18z"/>
-                </clipPath>
-              </defs>
-              <g clip-path="url(#flask-clip)">
-                <rect class="flask__liquid" x="0" y="32" width="48" height="24"/>
-              </g>
-              <circle class="flask__ripple" cx="24" cy="34" r="6"/>
-              <circle class="flask__drop" cx="24" cy="1" r="2.6"/>
-              <path class="flask__glass" d="M18 3h12v15l13.5 26a4 4 0 0 1-3.5 6H8a4 4 0 0 1-3.5-6L18 18z"/>
-              <path class="flask__glass" d="M16 3h16"/>
-            </svg>
-            <div class="mode__pill">
-              <a class="mode__btn is-active" href="index.html" aria-current="page">Pro</a>
-              <a class="mode__btn" href="personal.html">Per</a>
-            </div>
+          <!-- Micropipette: pick it up by hovering the toggle, click the other option to titrate the screen -->
+          <svg class="pipette" viewBox="0 0 28 80" aria-hidden="true" focusable="false">
+            <rect class="pipette__plunger" x="9" y="0" width="10" height="7" rx="2"/>
+            <rect class="pipette__stem" x="12.5" y="6" width="3" height="9"/>
+            <rect class="pipette__body" x="6" y="14" width="16" height="30" rx="4"/>
+            <rect class="pipette__window" x="9.5" y="20" width="9" height="7" rx="1"/>
+            <rect class="pipette__eject" x="22" y="26" width="4" height="9" rx="1.5"/>
+            <path class="pipette__cone" d="M8.5 44L11 58h6l2.5-14z"/>
+            <path class="pipette__tip" d="M11 58l2 18h2l2-18z"/>
+            <circle class="pipette__drop" cx="14" cy="77.5" r="2.2"/>
+          </svg>
+          <div class="mode__pill">
+            <a class="mode__btn is-active" href="index.html" aria-current="page">Pro</a>
+            <a class="mode__btn" href="personal.html">Per</a>
           </div>
           <p class="mode__hint">Professional work · pH 7</p>
         </nav>

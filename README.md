@@ -14,7 +14,7 @@ Both pages have identical layout. Edit them in parallel when you change structur
 ## Interactive bits
 
 - **Dot grid** — a fixed layer masked to a grid of dots; a red hotspot inside it eases toward the cursor (`.dots` / `.dots__glow`). Tune colours with `--dots-*` and spacing with `--dot-gap` / `--dot-size` in `style.css`.
-- **Titration toggle** — the Pro/Per switch sits next to an Erlenmeyer flask of phenolphthalein: clear on Pro (pH 7), pink on Per (pH 10). Clicking the other option drops titrant in, the solution changes colour, then the page navigates.
+- **Micropipette titration** — a micropipette rests beside the Pro/Per switch. Move the pointer into the toggle area and the pipette becomes your cursor; click the other option and it dispenses a drop, and a wash of the new colour (phenolphthalein: pink at pH 10, clear at pH 7) spreads from that point across the whole screen before the page follows. Colours: `--drop` and `--wash` in `style.css`.
 - **Gel scroll-nav** — a lane on the right edge with one band per section (`#about`, `#work`, `#contact`); the dye front tracks scroll and the passed band glows. Hidden under 900px.
 
 ## Customize

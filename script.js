@@ -23,20 +23,87 @@ if (reduce || !('IntersectionObserver' in window)) {
   });
 }
 
-/* ---------- Titration toggle ----------
-   Clicking the inactive option drops titrant into the flask; the solution changes
-   colour (phenolphthalein: clear -> pink or back), then the page navigates. */
+/* ---------- Micropipette titration ----------
+   The pipette rests beside the toggle. Move the pointer into the toggle area and it
+   becomes the cursor (tip at the pointer). Click the other option: the plunger goes
+   down, a drop falls, and a wash of the new colour spreads from the landing point
+   over the whole screen (phenolphthalein: clear -> pink or back). Then the page follows. */
 const mode = document.querySelector('.mode');
-if (mode && !reduce) {
+const pipette = document.querySelector('.pipette');
+const wash = document.querySelector('.wash');
+if (mode && pipette && wash) {
+  const pill = mode.querySelector('.mode__pill');
+  const fine = window.matchMedia('(pointer: fine)').matches;
+  let following = false;
+
+  // Where the tip sits inside the rendered SVG (viewBox 28x80, tip at 14,76).
+  const tipOffset = () => {
+    const r = pipette.getBoundingClientRect();
+    return { x: r.width * 14 / 28, y: r.height * 76 / 80 };
+  };
+  // Put the tip at (x, y), measured from .mode's top-left corner.
+  const place = (x, y) => {
+    const t = tipOffset();
+    pipette.style.transform = `translate(${x - t.x}px, ${y - t.y}px)`;
+  };
+  const rest = () => {
+    const m = mode.getBoundingClientRect();
+    const p = pill.getBoundingClientRect();
+    place(p.left - m.left - 16, p.top - m.top + p.height / 2);
+  };
+  rest();
+  window.addEventListener('resize', rest);
+  window.addEventListener('load', rest);
+
+  if (fine && !reduce) {
+    mode.addEventListener('pointerenter', () => {
+      if (mode.classList.contains('is-titrating')) return;
+      following = true;
+      mode.classList.add('has-pointer');
+      pipette.classList.add('is-following');
+    });
+    mode.addEventListener('pointermove', (e) => {
+      if (!following) return;
+      const m = mode.getBoundingClientRect();
+      place(e.clientX - m.left, e.clientY - m.top);
+    });
+    mode.addEventListener('pointerleave', () => {
+      following = false;
+      mode.classList.remove('has-pointer');
+      pipette.classList.remove('is-following');
+      if (!mode.classList.contains('is-titrating')) rest();
+    });
+  }
+
   mode.querySelectorAll('.mode__btn:not(.is-active)').forEach((btn) => {
     btn.addEventListener('click', (e) => {
-      // Let modified clicks / middle clicks behave like normal links.
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-      if (mode.classList.contains('is-titrating')) { e.preventDefault(); return; }
+      // Modified / middle clicks and reduced motion: behave like a normal link.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0 || reduce) return;
       e.preventDefault();
+      if (mode.classList.contains('is-titrating')) return;
       mode.classList.add('is-titrating');
-      setTimeout(() => mode.classList.add('is-flipped'), 420);
-      setTimeout(() => { window.location.href = btn.href; }, 900);
+
+      // Freeze the pipette where it is and dispense.
+      following = false;
+      pipette.classList.remove('is-following');
+      pipette.classList.add('is-dispensing');
+
+      // The drop lands just below the tip (viewport coords).
+      const r = pipette.getBoundingClientRect();
+      const t = tipOffset();
+      const x = r.left + t.x;
+      const y = r.top + t.y + 16;
+
+      setTimeout(() => {
+        wash.style.left = `${x}px`;
+        wash.style.top = `${y}px`;
+        // scale a 10px circle until it covers the far corner of the viewport
+        const scale = (2 * Math.hypot(window.innerWidth, window.innerHeight)) / 10;
+        wash.getBoundingClientRect(); // flush position before transitioning
+        wash.classList.add('is-active');
+        wash.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      }, 360);
+      setTimeout(() => { window.location.href = btn.href; }, 1100);
     });
   });
 }
