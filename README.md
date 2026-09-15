@@ -5,11 +5,17 @@ Static portfolio site for GitHub Pages. No build step.
 - `index.html` — **Pro** (professional work, white/pink day theme)
 - `personal.html` — **Per** (personal projects, plum/pink night theme)
 - `style.css` — shared styles; the theme is driven by `data-mode="pro|per"` on `<html>`
-- `script.js` — fade-in on scroll for project cards (progressive enhancement)
+- `script.js` — progressive enhancement: fade-in on scroll, the titration toggle animation, the gel scroll-nav, and the cursor-following dot glow. Without JS everything still works as plain links.
 - `assets/photo.jpg` — portrait (cropped to 7:8)
 - `assets/projects/project-{1..4}.jpg` — project images (16:10; currently pink gradient placeholders)
 
 Both pages have identical layout. Edit them in parallel when you change structure.
+
+## Interactive bits
+
+- **Dot grid** — a fixed layer masked to a grid of dots; a red hotspot inside it eases toward the cursor (`.dots` / `.dots__glow`). Tune colours with `--dots-*` and spacing with `--dot-gap` / `--dot-size` in `style.css`.
+- **Titration toggle** — the Pro/Per switch sits next to an Erlenmeyer flask of phenolphthalein: clear on Pro (pH 7), pink on Per (pH 10). Clicking the other option drops titrant in, the solution changes colour, then the page navigates.
+- **Gel scroll-nav** — a lane on the right edge with one band per section (`#about`, `#work`, `#contact`); the dye front tracks scroll and the passed band glows. Hidden under 900px.
 
 ## Customize
 
