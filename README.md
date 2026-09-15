@@ -25,12 +25,9 @@ Both pages have identical layout. Edit them in parallel when you change structur
 
 ## Deploy to GitHub Pages
 
-The repo is pushed to `jaewookng/jaewookang.github.io`. In that repo:
+The repo is pushed to `jaewookng/jaewookng.github.io`. In that repo:
 **Settings → Pages → Build and deployment** → Source: *Deploy from a branch*, Branch: `main` / `/ (root)`.
 
-Note: GitHub only serves a repo at the root `https://<username>.github.io` when the repo is named exactly
-`<username>.github.io`. With username `jaewookng`, that means the repo should be `jaewookng.github.io`;
-as `jaewookang.github.io` it will be served at `https://jaewookng.github.io/jaewookang.github.io/` instead.
-Everything here uses relative paths, so either URL works.
+The site is served at `https://jaewookng.github.io`.
 
 `.nojekyll` is included so GitHub serves the files as-is.
