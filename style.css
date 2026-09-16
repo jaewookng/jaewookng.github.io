@@ -399,9 +399,9 @@ img { display: block; max-width: 100%; }
 .js .reveal.is-visible { opacity: 1; transform: none; }
 
 /* ---------- Gel-electrophoresis scroll nav ---------- */
-/* A DNA ladder on the right edge: black lane, white bands of varying thickness with a
-   bloomy glow. Positions follow a 1 kb ladder (--p), thickness is --h. Three bands
-   (3,000 / 1,000 / 250 bp) are the about / work / contact links. The dye front tracks scroll. */
+/* A DNA ladder on the right edge: black lane, four white bands of varying thickness with a
+   bloomy glow, spaced like a real ladder (not evenly). Three bands are the about / work /
+   contact links. The dye front tracks scroll. */
 .gel {
   position: fixed;
   right: 22px;
@@ -434,7 +434,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* Bands: --p is the position down the lane (0 = top, 1 = bottom), --h the thickness.
-   Crisp rectangles; the glow does the work. */
+   Solid white rectangles with no edge of their own; the glow feathers straight off them. */
 .gel__band {
   position: absolute;
   left: 2px;
@@ -442,35 +442,30 @@ img { display: block; max-width: 100%; }
   top: calc(6px + var(--p) * (100% - 12px));
   height: var(--h, 3px);
   margin-top: calc(var(--h, 3px) / -2);
+  border: 0;
   border-radius: 1px;
   background: #fff;
-  opacity: .82;
   box-shadow:
-    0 0 3px 1px rgba(255, 255, 255, .9),
-    0 0 12px 3px rgba(255, 255, 255, .45),
-    0 0 26px 6px rgba(255, 255, 255, .18);
+    0 0 2px #fff,
+    0 0 8px 2px rgba(255, 255, 255, .7),
+    0 0 20px 6px rgba(255, 255, 255, .35),
+    0 0 40px 12px rgba(255, 255, 255, .14);
   pointer-events: none;
-  transition: box-shadow .3s var(--ease), opacity .3s var(--ease);
+  transition: box-shadow .3s var(--ease);
 }
 
-/* The three marker bands are links: the bright, thick bands of the ladder */
-.gel__band.is-marker {
-  pointer-events: auto;
-  opacity: 1;
-  box-shadow:
-    0 0 4px 1px rgba(255, 255, 255, 1),
-    0 0 16px 5px rgba(255, 255, 255, .6),
-    0 0 36px 10px rgba(255, 255, 255, .28);
-}
+/* The three marker bands are links */
+.gel__band.is-marker { pointer-events: auto; }
 .gel__band.is-marker:hover,
 .gel__band.is-marker:focus-visible,
 .gel__band.is-marker.is-active {
   box-shadow:
-    0 0 5px 2px rgba(255, 255, 255, 1),
-    0 0 22px 8px rgba(255, 255, 255, .7),
-    0 0 50px 16px rgba(255, 255, 255, .35);
+    0 0 2px #fff,
+    0 0 10px 3px rgba(255, 255, 255, .9),
+    0 0 28px 9px rgba(255, 255, 255, .5),
+    0 0 56px 18px rgba(255, 255, 255, .22);
 }
-.gel__band.is-marker:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+.gel__band.is-marker:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; }
 
 /* Labels sit to the left of the lane with a short tick line, like the bp column.
    bp values show when hovering the ladder; section names on hover / focus / active. */
