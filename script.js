@@ -27,14 +27,17 @@ if (reduce || !('IntersectionObserver' in window)) {
    Rests beside the toggle. Move the pointer onto the station and the hand cursor picks
    the pipette up by its body; while it's held, clicks register where the TIP is, not
    where the hand is (the button under the tip is highlighted so you can aim). Leave and
-   it glides back. Pro/Per navigate normally; the view transition cross-fades the theme. */
+   it glides back. When you switch pages while holding it, the position is handed to the
+   next page so the pipette doesn't jump. */
 const mode = document.querySelector('.mode');
 const pipette = document.querySelector('.pipette');
 if (mode && pipette) {
   const pill = mode.querySelector('.mode__pill');
   const buttons = [...mode.querySelectorAll('.mode__btn')];
   const fine = window.matchMedia('(pointer: fine)').matches;
+  const KEY = 'pipette';
   let following = false;
+  let last = null;   // last grip point, relative to the station
 
   // Points on the pipette (viewBox 28x80): the tip, and where the hand grips the body.
   const TIP = [14, 76];
@@ -48,9 +51,6 @@ if (mode && pipette) {
     const p = pill.getBoundingClientRect();
     placeAt(p.left - m.left - 16, p.top - m.top + p.height / 2, TIP);
   };
-  rest();
-  window.addEventListener('resize', rest);
-  window.addEventListener('load', rest);
 
   // The button under the tip (viewport coords), if any.
   const buttonAtTip = () => {
@@ -60,32 +60,61 @@ if (mode && pipette) {
   };
   const setHot = (btn) => buttons.forEach((b) => b.classList.toggle('is-hot', b === btn));
 
+  const hold = () => {
+    following = true;
+    mode.classList.add('is-holding');
+    pipette.classList.add('is-following');
+  };
+  const release = () => {
+    following = false;
+    mode.classList.remove('is-holding');
+    pipette.classList.remove('is-following');
+    setHot(null);
+    rest();
+  };
+
+  // Did the previous page hand us a held pipette?
+  let saved = null;
+  try {
+    saved = JSON.parse(sessionStorage.getItem(KEY));
+    sessionStorage.removeItem(KEY);
+  } catch (err) { saved = null; }
+
+  if (fine && !reduce && saved && Date.now() - saved.t < 5000) {
+    hold();
+    last = { x: saved.x, y: saved.y };
+    placeAt(last.x, last.y, GRIP);
+    setHot(buttonAtTip());
+    // If the pointer has left the station meanwhile, let go on its first move.
+    document.addEventListener('pointermove', (e) => { if (!mode.contains(e.target)) release(); }, { once: true });
+  } else {
+    rest();
+  }
+  window.addEventListener('resize', () => { if (!following) rest(); });
+  window.addEventListener('load', () => { if (!following) rest(); });
+
   if (fine && !reduce) {
-    mode.addEventListener('pointerenter', () => {
-      following = true;
-      mode.classList.add('is-holding');
-      pipette.classList.add('is-following');
-    });
+    mode.addEventListener('pointerenter', hold);
     mode.addEventListener('pointermove', (e) => {
       if (!following) return;
       const m = mode.getBoundingClientRect();
-      placeAt(e.clientX - m.left, e.clientY - m.top, GRIP);
+      last = { x: e.clientX - m.left, y: e.clientY - m.top };
+      placeAt(last.x, last.y, GRIP);
       setHot(buttonAtTip());
     });
-    mode.addEventListener('pointerleave', () => {
-      following = false;
-      mode.classList.remove('is-holding');
-      pipette.classList.remove('is-following');
-      setHot(null);
-      rest();
-    });
+    mode.addEventListener('pointerleave', release);
     // While holding: the click happens at the tip.
     mode.addEventListener('click', (e) => {
       if (!following || e.detail === 0) return;                       // keyboard: leave it alone
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
       e.preventDefault();
       const btn = buttonAtTip();
-      if (btn && !btn.classList.contains('is-active')) window.location.href = btn.href;
+      if (btn && !btn.classList.contains('is-active')) {
+        if (last) {
+          try { sessionStorage.setItem(KEY, JSON.stringify({ x: last.x, y: last.y, t: Date.now() })); } catch (err) { /* private mode */ }
+        }
+        window.location.href = btn.href;
+      }
     });
   }
 }
