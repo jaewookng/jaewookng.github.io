@@ -25,7 +25,7 @@ if (reduce || !('IntersectionObserver' in window)) {
 
 /* ---------- Micropipette ----------
    Rests beside the toggle. Move the pointer onto the station and the hand cursor picks
-   the pipette up by its body; leave and it glides back. The Pro/Per links navigate
+   the pipette up, tip at the pointer; leave and it glides back. The Pro/Per links navigate
    normally; the view transition cross-fades the theme. */
 const mode = document.querySelector('.mode');
 const pipette = document.querySelector('.pipette');
@@ -34,9 +34,8 @@ if (mode && pipette) {
   const fine = window.matchMedia('(pointer: fine)').matches;
   let following = false;
 
-  // Points on the pipette (viewBox 28x80): the tip, and where the hand grips the body.
+  // The tip of the pipette (viewBox 28x80) is the anchor: at rest and when held.
   const TIP = [14, 76];
-  const GRIP = [14, 34];
   const placeAt = (x, y, [ax, ay]) => {
     const r = pipette.getBoundingClientRect();
     pipette.style.transform = `translate(${x - r.width * ax / 28}px, ${y - r.height * ay / 80}px)`;
@@ -58,7 +57,7 @@ if (mode && pipette) {
     mode.addEventListener('pointermove', (e) => {
       if (!following) return;
       const m = mode.getBoundingClientRect();
-      placeAt(e.clientX - m.left, e.clientY - m.top, GRIP);
+      placeAt(e.clientX - m.left, e.clientY - m.top, TIP);
     });
     mode.addEventListener('pointerleave', () => {
       following = false;
