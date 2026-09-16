@@ -24,11 +24,13 @@
   --dots-mid:  rgba(255, 92, 124, .46);
   --dots-far:  rgba(255, 150, 172, .22);
 
-  /* sterile station: the slate bench the pipette and toggle sit on */
-  --station: #6b7785;
-  --station-fg: #ffffff;
-  --station-muted: rgba(255, 255, 255, .7);
-  --station-pill: rgba(255, 255, 255, .16);
+  /* sterile station: brushed stainless hood the pipette and toggle sit in */
+  --station: linear-gradient(180deg, #eef0f2 0%, #dfe2e6 55%, #d3d7dc 100%);
+  --station-edge: rgba(255, 255, 255, .85);
+  --station-shadow: rgba(0, 0, 0, .10);
+  --station-fg: #1d1419;
+  --station-muted: #5e6670;
+  --station-pill: rgba(0, 0, 0, .07);
 
   /* footer is inverted: black on the light page, white on the dark one */
   --footer-bg: #1d1419;
@@ -61,9 +63,11 @@
   --dots-hot:  rgba(255, 60, 100, .62);
   --dots-mid:  rgba(255, 100, 132, .40);
   --dots-far:  rgba(255, 140, 165, .18);
-  --station: #3b434d;
+  --station: linear-gradient(180deg, #5b626a 0%, #4a5058 55%, #40464d 100%);
+  --station-edge: rgba(255, 255, 255, .18);
+  --station-shadow: rgba(0, 0, 0, .35);
   --station-fg: #ffffff;
-  --station-muted: rgba(255, 255, 255, .62);
+  --station-muted: rgba(255, 255, 255, .66);
   --station-pill: rgba(255, 255, 255, .12);
 
   --footer-bg: #ffffff;
@@ -219,20 +223,25 @@ img { display: block; max-width: 100%; }
 }
 
 /* ---------- Sterile station: Pro / Per toggle ---------- */
-/* A rounded slate bench under the portrait (separated by the hero row-gap, so the two
-   never share an edge). The pipette rests on it; the pointer picks the pipette up here. */
+/* A rounded brushed-steel hood under the portrait (separated by the hero row-gap, so the
+   two never share an edge). The pipette rests in it; the hand picks it up here. */
 .mode {
   grid-area: mode;
   position: relative;
   padding: 66px 22px 20px;   /* top room for the resting pipette */
-  background: var(--station);
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, .05) 0 1px, rgba(0, 0, 0, .03) 1px 2px),  /* brushed grain */
+    var(--station);
   color: var(--station-fg);
   border-radius: 18px;
-  transition: background-color .35s var(--ease);
+  box-shadow:
+    inset 0 1px 0 var(--station-edge),
+    inset 0 -1px 0 var(--station-shadow),
+    0 1px 2px var(--station-shadow);
 }
-/* While the pointer is on the station, the pipette is the cursor. */
-.mode.has-pointer,
-.mode.has-pointer * { cursor: none; }
+/* Inside the hood the cursor is a hand: you're holding the pipette. */
+.mode, .mode * { cursor: grab; }
+.mode:active, .mode:active * { cursor: grabbing; }
 
 .mode__pill {
   display: inline-flex;
@@ -256,8 +265,8 @@ img { display: block; max-width: 100%; }
 }
 .mode__btn:hover { color: var(--station-fg); }
 .mode__btn.is-active {
-  background: var(--station-fg);
-  color: #1d1419;
+  background: #1d1419;
+  color: #ffffff;
 }
 :root[data-mode="per"] .mode__btn.is-active {
   background: var(--pink);
@@ -269,7 +278,7 @@ img { display: block; max-width: 100%; }
   color: var(--station-muted);
 }
 
-/* Micropipette. Rests beside the pill; follows the pointer inside .mode. */
+/* Micropipette. Rests beside the pill; held by the hand cursor inside the hood. */
 .pipette {
   position: absolute;
   top: 0;
