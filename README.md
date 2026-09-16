@@ -22,9 +22,8 @@ Assets are linked with a version query (`style.css?v=N`). Bump `N` in both pages
 
 ## Customize
 
-1. Replace `you@example.com` in both HTML files with your email.
-2. For each project: swap the image in `assets/projects/`, then set the title, tag, description, and `href` in the HTML.
-3. Fill in the LinkedIn / Google Scholar links in the footer, and the `view more projects` link.
+1. For each project: swap the image in `assets/projects/`, then set the title, tag, description, and `href` in the HTML.
+2. Set the YouTube channel URL in the footer (LinkedIn is already linked), and the `view more projects` link.
 
 ## Deploy to GitHub Pages
 
