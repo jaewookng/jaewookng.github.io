@@ -24,6 +24,12 @@
   --dots-mid:  rgba(255, 92, 124, .46);
   --dots-far:  rgba(255, 150, 172, .22);
 
+  /* sterile station: the slate bench the pipette and toggle sit on */
+  --station: #6b7785;
+  --station-fg: #ffffff;
+  --station-muted: rgba(255, 255, 255, .7);
+  --station-pill: rgba(255, 255, 255, .16);
+
   /* footer is inverted: black on the light page, white on the dark one */
   --footer-bg: #1d1419;
   --footer-fg: #ffffff;
@@ -55,6 +61,11 @@
   --dots-hot:  rgba(255, 60, 100, .62);
   --dots-mid:  rgba(255, 100, 132, .40);
   --dots-far:  rgba(255, 140, 165, .18);
+  --station: #3b434d;
+  --station-fg: #ffffff;
+  --station-muted: rgba(255, 255, 255, .62);
+  --station-pill: rgba(255, 255, 255, .12);
+
   --footer-bg: #ffffff;
   --footer-fg: #1d1419;
   --footer-muted: #8d7781;
@@ -166,7 +177,7 @@ img { display: block; max-width: 100%; }
     "photo about"
     "mode  about";
   column-gap: clamp(32px, 8vw, 150px);
-  row-gap: 4px;
+  row-gap: 18px;
   align-items: start;
   padding-block: 24px 120px;
   scroll-margin-top: 24px;
@@ -207,21 +218,28 @@ img { display: block; max-width: 100%; }
   text-wrap: pretty;
 }
 
-/* ---------- Pro / Per toggle as a titration ---------- */
+/* ---------- Sterile station: Pro / Per toggle ---------- */
+/* A rounded slate bench under the portrait (separated by the hero row-gap, so the two
+   never share an edge). The pipette rests on it; the pointer picks the pipette up here. */
 .mode {
   grid-area: mode;
   position: relative;
-  padding: 60px 0 0 clamp(0px, 6vw, 80px);   /* room for the pipette resting above the pill */
+  padding: 66px 22px 20px;   /* top room for the resting pipette */
+  background: var(--station);
+  color: var(--station-fg);
+  border-radius: 18px;
+  transition: background-color .35s var(--ease);
 }
-/* While the pointer is in the toggle area, the pipette is the cursor. */
+/* While the pointer is on the station, the pipette is the cursor. */
 .mode.has-pointer,
 .mode.has-pointer * { cursor: none; }
 
 .mode__pill {
   display: inline-flex;
   gap: 4px;
+  margin-left: 38px;          /* the pipette rests in this gap */
   padding: 4px;
-  background: var(--surface-2);
+  background: var(--station-pill);
   border-radius: var(--r-sm);
 }
 .mode__btn {
@@ -232,19 +250,23 @@ img { display: block; max-width: 100%; }
   padding: 7px 16px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--muted);
+  color: var(--station-muted);
   border-radius: var(--r-sm);
   transition: background-color .25s var(--ease), color .25s var(--ease);
 }
-.mode__btn:hover { color: var(--fg); }
+.mode__btn:hover { color: var(--station-fg); }
 .mode__btn.is-active {
-  background: var(--accent);
-  color: var(--accent-fg);
+  background: var(--station-fg);
+  color: #1d1419;
+}
+:root[data-mode="per"] .mode__btn.is-active {
+  background: var(--pink);
+  color: #150f18;
 }
 .mode__hint {
-  margin: 12px 0 0 4px;
+  margin: 12px 0 0 42px;
   font-size: 13px;
-  color: var(--muted);
+  color: var(--station-muted);
 }
 
 /* Micropipette. Rests beside the pill; follows the pointer inside .mode. */
@@ -257,22 +279,22 @@ img { display: block; max-width: 100%; }
   height: 74px;
   overflow: visible;
   pointer-events: none;
-  color: var(--fg);
+  color: #1d1419;
   transition: transform .5s var(--ease);
 }
 .pipette.is-following { transition: none; }
 .pipette__plunger { fill: var(--pink-deep); }
-.pipette__stem    { fill: var(--muted); }
+.pipette__stem    { fill: #8a939e; }
 .pipette__body, .pipette__cone {
-  fill: var(--surface-2);
+  fill: #f3f4f6;
   stroke: currentColor;
   stroke-width: 1.5;
   stroke-linejoin: round;
 }
-.pipette__window { fill: var(--bg); stroke: currentColor; stroke-width: 1; }
-.pipette__eject  { fill: var(--muted); }
+.pipette__window { fill: #ffffff; stroke: currentColor; stroke-width: 1; }
+.pipette__eject  { fill: #8a939e; }
 .pipette__tip {
-  fill: var(--bg);
+  fill: #ffffff;
   stroke: currentColor;
   stroke-width: 1.25;
   stroke-linejoin: round;
@@ -377,10 +399,9 @@ img { display: block; max-width: 100%; }
 .js .reveal.is-visible { opacity: 1; transform: none; }
 
 /* ---------- Gel-electrophoresis scroll nav ---------- */
-/* A 1 kb DNA ladder on the right edge, drawn like an agarose gel under UV: dark lane,
-   white fluorescent bands. Positions and brightness follow the ladder (--p, --o).
-   Three bands (3,000 / 1,000 / 250 bp) are the about / work / contact links.
-   The dye front tracks scroll. */
+/* A DNA ladder on the right edge: black lane, white bands of varying thickness with a
+   bloomy glow. Positions follow a 1 kb ladder (--p), thickness is --h. Three bands
+   (3,000 / 1,000 / 250 bp) are the about / work / contact links. The dye front tracks scroll. */
 .gel {
   position: fixed;
   right: 22px;
@@ -389,18 +410,17 @@ img { display: block; max-width: 100%; }
   width: 32px;
   height: 300px;
   transform: translateY(-50%);
-  --lane-line: #3a3a3a;
+  --lane-line: #262626;
 }
-:root[data-mode="per"] .gel { --lane-line: #454549; }
+:root[data-mode="per"] .gel { --lane-line: #3a3a3e; }
 .gel[hidden] { display: none; }
 
 .gel__lane {
   position: absolute;
   inset: 0;
-  border-radius: 3px;
-  background: linear-gradient(to bottom, #2c2c2c 0%, #1a1a1a 35%, #1e1e1e 70%, #262626 100%);
+  border-radius: 2px;
+  background: #050505;
   border: 1px solid var(--lane-line);
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, .6);
 }
 .gel__front {
   position: absolute;
@@ -409,39 +429,47 @@ img { display: block; max-width: 100%; }
   top: 6px;
   height: 2px;
   background: #fff;
-  opacity: .22;
+  opacity: .2;
   transition: top .12s linear;
 }
 
-/* Bands: --p is the position down the lane (0 = top, 1 = bottom), --o the brightness.
-   Soft top/bottom edges and a glow so they read as fluorescence, not bars. */
+/* Bands: --p is the position down the lane (0 = top, 1 = bottom), --h the thickness.
+   Crisp rectangles; the glow does the work. */
 .gel__band {
   position: absolute;
-  left: 3px;
-  right: 3px;
+  left: 2px;
+  right: 2px;
   top: calc(6px + var(--p) * (100% - 12px));
-  height: 4px;
-  margin-top: -2px;
-  border-radius: 2px;
-  color: #fff;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 30%, #fff 70%, rgba(255, 255, 255, 0));
-  box-shadow: 0 0 4px 1px rgba(255, 255, 255, .55);
-  opacity: var(--o, .45);
+  height: var(--h, 3px);
+  margin-top: calc(var(--h, 3px) / -2);
+  border-radius: 1px;
+  background: #fff;
+  opacity: .82;
+  box-shadow:
+    0 0 3px 1px rgba(255, 255, 255, .9),
+    0 0 12px 3px rgba(255, 255, 255, .45),
+    0 0 26px 6px rgba(255, 255, 255, .18);
   pointer-events: none;
   transition: box-shadow .3s var(--ease), opacity .3s var(--ease);
 }
 
-/* The three marker bands are links: the bright bands of the ladder */
+/* The three marker bands are links: the bright, thick bands of the ladder */
 .gel__band.is-marker {
   pointer-events: auto;
-  height: 6px;
-  margin-top: -3px;
   opacity: 1;
-  box-shadow: 0 0 6px 1px rgba(255, 255, 255, .8);
+  box-shadow:
+    0 0 4px 1px rgba(255, 255, 255, 1),
+    0 0 16px 5px rgba(255, 255, 255, .6),
+    0 0 36px 10px rgba(255, 255, 255, .28);
 }
 .gel__band.is-marker:hover,
 .gel__band.is-marker:focus-visible,
-.gel__band.is-marker.is-active { box-shadow: 0 0 12px 3px rgba(255, 255, 255, .95); }
+.gel__band.is-marker.is-active {
+  box-shadow:
+    0 0 5px 2px rgba(255, 255, 255, 1),
+    0 0 22px 8px rgba(255, 255, 255, .7),
+    0 0 50px 16px rgba(255, 255, 255, .35);
+}
 .gel__band.is-marker:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
 
 /* Labels sit to the left of the lane with a short tick line, like the bp column.
@@ -516,11 +544,11 @@ img { display: block; max-width: 100%; }
       "photo"
       "mode"
       "about";
-    row-gap: 4px;
+    row-gap: 18px;
     padding-bottom: 72px;
   }
   .portrait { max-width: 320px; }
-  .mode { padding-left: 0; }
+  .mode { max-width: 320px; }
   .eyebrow { margin-bottom: 20px; }
   .about { padding-top: 28px; }
 

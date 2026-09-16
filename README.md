@@ -9,14 +9,16 @@ Static portfolio site for GitHub Pages. No build step.
 - `assets/photo.jpg` — portrait (cropped to 7:8)
 - `assets/projects/project-{1..4}.jpg` — project images (16:10; currently pink gradient placeholders)
 
-Both pages have identical layout. Edit them in parallel when you change structure.
+Both pages have identical layout but their own copy (about text, project cards). Edit them in parallel when you change structure.
+
+Assets are linked with a version query (`style.css?v=N`). Bump `N` in both pages whenever you change CSS or JS so GitHub Pages and browsers don't serve a stale copy.
 
 ## Interactive bits
 
 - **Dot grid** — a fixed layer masked to a grid of dots; a red hotspot inside it eases toward the cursor (`.dots` / `.dots__glow`). Tune colours with `--dots-*` and spacing with `--dot-gap` / `--dot-size` in `style.css`.
-- **Micropipette** — rests beside the Pro/Per switch; move the pointer into the toggle area and it becomes your cursor, leave and it glides back. The switch itself navigates instantly; the theme cross-fades via the View Transitions API where supported.
+- **Sterile station** — the rounded slate bench under the portrait that holds the pipette and the Pro/Per switch (`--station-*` tokens). The micropipette rests on it; move the pointer onto the station and the pipette becomes your cursor, leave and it glides back. The switch itself navigates instantly; the theme cross-fades via the View Transitions API where supported.
 - **Footer** — full-bleed, inverted: black on Pro, white on Per (`--footer-*` tokens).
-- **DNA-ladder scroll-nav** — a 1 kb DNA ladder on the right edge, drawn like an agarose gel under UV: dark lane, white fluorescent bands at the positions/brightness of the real ladder (25,000 → 250 bp). The bright 3,000 / 1,000 / 250 bp bands are the `#about` / `#work` / `#contact` links; the one for the section in view glows. Hover the lane for bp labels; the dye front tracks scroll. Positions are `--p`, brightness `--o`, in the HTML. Hidden under 900px wide or 460px tall.
+- **DNA-ladder scroll-nav** — a black lane on the right edge with eight white bands of varying thickness and a bloomy glow, at 1 kb-ladder positions. The thick 3,000 / 1,000 / 250 bp bands are the `#about` / `#work` / `#contact` links; the one for the section in view glows harder. Hover the lane for bp labels; the dye front tracks scroll. Positions are `--p`, thickness `--h`, in the HTML. Hidden under 900px wide or 460px tall.
 
 ## Customize
 
