@@ -11,7 +11,7 @@ Static portfolio site for GitHub Pages. No build step.
 
 Both pages have identical layout but their own copy (about text, project cards). Edit them in parallel when you change structure.
 
-Assets and the Pro/Per toggle links carry a version query (`style.css?v=N`, `personal.html?v=N`). Bump `N` everywhere in both pages whenever you change anything, so a page switch always fetches fresh copies. GitHub Pages caches every file for 10 minutes, so a direct visit to a URL you've already opened can still show the previous version for up to that long; a hard refresh (⌘⇧R) clears it.
+Assets and the Pro/Per toggle links carry a version query (`style.css?v=N`, `personal.html?v=N`). Bump `N` everywhere in both pages whenever you change anything, so a page switch always fetches fresh copies (the `?v=` is stripped from the address bar on load). GitHub Pages caches every file for 10 minutes, so a direct visit to a URL you've already opened can still show the previous version for up to that long; a hard refresh (⌘⇧R) clears it.
 
 ## Interactive bits
 

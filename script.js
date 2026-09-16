@@ -2,6 +2,12 @@
 // and the gel nav is a plain list of anchor links.
 document.documentElement.classList.add('js');
 
+// The Pro/Per links carry a cache-busting ?v= so a switch always fetches a fresh page.
+// Once loaded, drop it from the address bar.
+if (/[?&]v=/.test(window.location.search)) {
+  window.history.replaceState(window.history.state, '', window.location.pathname + window.location.hash);
+}
+
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- Fade-in on scroll ---------- */
