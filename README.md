@@ -6,7 +6,7 @@ Static portfolio site for GitHub Pages. No build step.
 - `personal.html` — **Per** (personal projects, plum/pink night theme)
 - `style.css` — shared styles; the theme is driven by `data-mode="pro|per"` on `<html>`
 - `script.js` — progressive enhancement: fade-in on scroll, the cursor-following pipette, the gel scroll-nav, and the cursor-following dot glow. Without JS everything still works as plain links.
-- `assets/photo.jpg` — portrait (cropped to 7:8)
+- `assets/photo.jpg` — portrait for the Pro page; `assets/photo-personal.jpg` — Mii for the Per page (both cropped to 7:8)
 - `assets/projects/project-{1..4}.jpg` — project images (16:10; currently pink gradient placeholders)
 
 Both pages have identical layout but their own copy (about text, project cards). Edit them in parallel when you change structure.
