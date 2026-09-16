@@ -16,7 +16,7 @@ Both pages have identical layout. Edit them in parallel when you change structur
 - **Dot grid** — a fixed layer masked to a grid of dots; a red hotspot inside it eases toward the cursor (`.dots` / `.dots__glow`). Tune colours with `--dots-*` and spacing with `--dot-gap` / `--dot-size` in `style.css`.
 - **Micropipette** — rests beside the Pro/Per switch; move the pointer into the toggle area and it becomes your cursor, leave and it glides back. The switch itself navigates instantly; the theme cross-fades via the View Transitions API where supported.
 - **Footer** — full-bleed, inverted: black on Pro, white on Per (`--footer-*` tokens).
-- **Gel scroll-nav** — a lane on the right edge with one band per section (`#about`, `#work`, `#contact`); the dye front tracks scroll and the passed band glows. Hidden under 900px.
+- **Protein-ladder scroll-nav** — a pre-stained ladder on the right edge: ten log-spaced bands (blue, with the red ~75 kDa and green ~25 kDa markers). Three bands are links — `#about` (~180), `#work` (red), `#contact` (green) — and the one for the section in view glows. Hover the lane for kDa labels; the bromophenol-blue dye front tracks scroll. Positions are the `--p` values in the HTML; colours are `--band-*` on `.gel`. Hidden under 900px wide or 460px tall.
 
 ## Customize
 

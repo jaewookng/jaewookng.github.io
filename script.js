@@ -74,42 +74,40 @@ if (mode && pipette) {
 }
 
 /* ---------- Gel-electrophoresis scroll nav ----------
-   Each band is placed where its section sits in the page (as a fraction of scrollable
-   height); the dye front follows scroll; the band the front has passed is active. */
+   Bands sit at fixed ladder positions (CSS --p). The dye front moves with scroll
+   progress; the marker band for the section currently in view is active. */
 const gel = document.querySelector('.gel');
 if (gel) {
   const front = gel.querySelector('.gel__front');
-  const bands = [...gel.querySelectorAll('.gel__band')];
-  const targets = bands.map((b) => document.querySelector(b.getAttribute('href')));
-  const TOP = 14;                        // just under the well
-  const BOTTOM = gel.offsetHeight - 8;   // above the lane's bottom edge
-  let positions = [];
+  const markers = [...gel.querySelectorAll('.gel__band.is-marker')];
+  const targets = markers.map((m) => document.querySelector(m.getAttribute('href')));
+  const TOP = 6;                       // lane inset, matches the CSS
+  const BOTTOM = gel.offsetHeight - 6;
+  let tops = [];
   let ticking = false;
 
   const maxScroll = () => document.documentElement.scrollHeight - window.innerHeight;
-  const toPx = (p) => TOP + p * (BOTTOM - TOP);
 
   function layout() {
     const max = maxScroll();
     if (max < 200) { gel.hidden = true; return; }
     gel.hidden = false;
-    positions = targets.map((t) => {
-      if (!t) return 0;
-      const top = t.getBoundingClientRect().top + window.scrollY;
-      return Math.min(1, Math.max(0, top / max));
-    });
-    bands.forEach((b, i) => { b.style.top = `${toPx(positions[i])}px`; });
+    tops = targets.map((t) => (t ? t.getBoundingClientRect().top + window.scrollY : 0));
     update();
   }
 
   function update() {
     const max = maxScroll();
-    const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-    front.style.top = `${toPx(p)}px`;
+    const y = window.scrollY;
+    const p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+    front.style.top = `${TOP + p * (BOTTOM - TOP)}px`;
+
+    // a section is "current" once its top has reached the upper third of the viewport
+    const probe = y + window.innerHeight * 0.35;
     let active = 0;
-    positions.forEach((pos, i) => { if (p + 0.02 >= pos) active = i; });
-    if (p >= 0.98) active = bands.length - 1;
-    bands.forEach((b, i) => b.classList.toggle('is-active', i === active));
+    tops.forEach((top, i) => { if (top <= probe) active = i; });
+    if (max > 0 && y >= max - 2) active = markers.length - 1;
+    markers.forEach((m, i) => m.classList.toggle('is-active', i === active));
     ticking = false;
   }
 
