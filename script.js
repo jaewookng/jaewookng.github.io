@@ -23,15 +23,13 @@ if (reduce || !('IntersectionObserver' in window)) {
   });
 }
 
-/* ---------- Micropipette titration ----------
-   The pipette rests beside the toggle. Move the pointer into the toggle area and it
-   becomes the cursor (tip at the pointer). Click the other option: the plunger goes
-   down, a drop falls, and a wash of the new colour spreads from the landing point
-   over the whole screen (phenolphthalein: clear -> pink or back). Then the page follows. */
+/* ---------- Micropipette ----------
+   Rests beside the toggle. Move the pointer into the toggle area and it becomes the
+   cursor (tip at the pointer); leave and it glides back. The Pro/Per links navigate
+   normally; the view transition cross-fades the theme. */
 const mode = document.querySelector('.mode');
 const pipette = document.querySelector('.pipette');
-const wash = document.querySelector('.wash');
-if (mode && pipette && wash) {
+if (mode && pipette) {
   const pill = mode.querySelector('.mode__pill');
   const fine = window.matchMedia('(pointer: fine)').matches;
   let following = false;
@@ -57,7 +55,6 @@ if (mode && pipette && wash) {
 
   if (fine && !reduce) {
     mode.addEventListener('pointerenter', () => {
-      if (mode.classList.contains('is-titrating')) return;
       following = true;
       mode.classList.add('has-pointer');
       pipette.classList.add('is-following');
@@ -71,41 +68,9 @@ if (mode && pipette && wash) {
       following = false;
       mode.classList.remove('has-pointer');
       pipette.classList.remove('is-following');
-      if (!mode.classList.contains('is-titrating')) rest();
+      rest();
     });
   }
-
-  mode.querySelectorAll('.mode__btn:not(.is-active)').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      // Modified / middle clicks and reduced motion: behave like a normal link.
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0 || reduce) return;
-      e.preventDefault();
-      if (mode.classList.contains('is-titrating')) return;
-      mode.classList.add('is-titrating');
-
-      // Freeze the pipette where it is and dispense.
-      following = false;
-      pipette.classList.remove('is-following');
-      pipette.classList.add('is-dispensing');
-
-      // The drop lands just below the tip (viewport coords).
-      const r = pipette.getBoundingClientRect();
-      const t = tipOffset();
-      const x = r.left + t.x;
-      const y = r.top + t.y + 16;
-
-      setTimeout(() => {
-        wash.style.left = `${x}px`;
-        wash.style.top = `${y}px`;
-        // scale a 10px circle until it covers the far corner of the viewport
-        const scale = (2 * Math.hypot(window.innerWidth, window.innerHeight)) / 10;
-        wash.getBoundingClientRect(); // flush position before transitioning
-        wash.classList.add('is-active');
-        wash.style.transform = `translate(-50%, -50%) scale(${scale})`;
-      }, 360);
-      setTimeout(() => { window.location.href = btn.href; }, 1100);
-    });
-  });
 }
 
 /* ---------- Gel-electrophoresis scroll nav ----------

@@ -12,7 +12,6 @@
 </head>
 <body>
   <div class="dots" aria-hidden="true"><div class="dots__glow"></div></div>
-  <div class="wash" aria-hidden="true"></div>
   <div class="wrap">
 
     <header class="topbar">
@@ -32,7 +31,7 @@
         </div>
 
         <nav class="mode" aria-label="Professional or personal">
-          <!-- Micropipette: pick it up by hovering the toggle, click the other option to titrate the screen -->
+          <!-- Micropipette: pick it up by hovering the toggle -->
           <svg class="pipette" viewBox="0 0 28 80" aria-hidden="true" focusable="false">
             <rect class="pipette__plunger" x="9" y="0" width="10" height="7" rx="2"/>
             <rect class="pipette__stem" x="12.5" y="6" width="3" height="9"/>
@@ -41,7 +40,6 @@
             <rect class="pipette__eject" x="22" y="26" width="4" height="9" rx="1.5"/>
             <path class="pipette__cone" d="M8.5 44L11 58h6l2.5-14z"/>
             <path class="pipette__tip" d="M11 58l2 18h2l2-18z"/>
-            <circle class="pipette__drop" cx="14" cy="77.5" r="2.2"/>
           </svg>
           <div class="mode__pill">
             <a class="mode__btn" href="index.html">Pro</a>
@@ -104,7 +102,11 @@
       </section>
     </main>
 
-    <footer class="footer" id="contact">
+
+  </div>
+
+  <footer class="footer" id="contact">
+    <div class="wrap footer__inner">
       <div class="footer__contact">
         <p>email: <a href="mailto:you@example.com">you@example.com</a></p>
         <p class="footer__muted">available for: collaborations &amp; research</p>
@@ -123,9 +125,8 @@
           <li><a href="#" rel="me">google scholar</a></li>
         </ul>
       </div>
-    </footer>
-
-  </div>
+    </div>
+  </footer>
 
   <!-- Gel lane: one band per section, dye front tracks scroll -->
   <nav class="gel" aria-label="Sections">

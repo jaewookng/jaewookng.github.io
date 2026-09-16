@@ -24,10 +24,11 @@
   --dots-mid:  rgba(255, 92, 124, .46);
   --dots-far:  rgba(255, 150, 172, .22);
 
-  /* phenolphthalein: colourless at pH 7, pink above 8.2. The drop is what's added;
-     the wash is what the screen turns into. */
-  --drop: #ff4d72;
-  --wash: #ff9fb8;
+  /* footer is inverted: black on the light page, white on the dark one */
+  --footer-bg: #1d1419;
+  --footer-fg: #ffffff;
+  --footer-muted: rgba(255, 255, 255, .62);
+  --footer-line: rgba(255, 255, 255, .12);
 
   --gutter: clamp(16px, 4vw, 40px);
   --r-sm: 999px;
@@ -54,12 +55,16 @@
   --dots-hot:  rgba(255, 60, 100, .62);
   --dots-mid:  rgba(255, 100, 132, .40);
   --dots-far:  rgba(255, 140, 165, .18);
-  --drop: #e7eef6;
-  --wash: #e7eef6;
+  --footer-bg: #ffffff;
+  --footer-fg: #1d1419;
+  --footer-muted: #8d7781;
+  --footer-line: #f5d8df;
 }
 
 /* Cross-fade between the two pages in browsers that support it. */
 @view-transition { navigation: auto; }
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: .35s; }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -242,7 +247,7 @@ img { display: block; max-width: 100%; }
   color: var(--muted);
 }
 
-/* Micropipette. Rests beside the pill; follows the pointer inside .mode; dispenses on click. */
+/* Micropipette. Rests beside the pill; follows the pointer inside .mode. */
 .pipette {
   position: absolute;
   top: 0;
@@ -258,9 +263,6 @@ img { display: block; max-width: 100%; }
 .pipette.is-following { transition: none; }
 .pipette__plunger { fill: var(--pink-deep); }
 .pipette__stem    { fill: var(--muted); }
-.pipette__plunger, .pipette__stem { transition: transform .12s var(--ease); }
-.pipette.is-dispensing .pipette__plunger,
-.pipette.is-dispensing .pipette__stem { transform: translateY(4px); }
 .pipette__body, .pipette__cone {
   fill: var(--surface-2);
   stroke: currentColor;
@@ -275,29 +277,6 @@ img { display: block; max-width: 100%; }
   stroke-width: 1.25;
   stroke-linejoin: round;
 }
-.pipette__drop { fill: var(--drop); opacity: 0; }
-.pipette.is-dispensing .pipette__drop { animation: pipette-drop .4s cubic-bezier(.4, 0, 1, 1) forwards; }
-
-@keyframes pipette-drop {
-  0%   { opacity: 0; transform: translateY(0); }
-  15%  { opacity: 1; }
-  100% { opacity: 0; transform: translateY(16px); }
-}
-
-/* The screen is the solution: a wash spreads from where the drop lands, then the page follows. */
-.wash {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--wash);
-  transform: translate(-50%, -50%) scale(0);
-  pointer-events: none;
-}
-.wash.is-active { transition: transform .75s cubic-bezier(.3, .6, .3, 1); }
 
 /* ---------- Selected work ---------- */
 .work { padding-bottom: 120px; scroll-margin-top: 40px; }
@@ -475,13 +454,17 @@ img { display: block; max-width: 100%; }
 
 /* ---------- Footer ---------- */
 .footer {
+  background: var(--footer-bg);
+  color: var(--footer-fg);
+  scroll-margin-top: 40px;
+  transition: background-color .35s var(--ease), color .35s var(--ease);
+}
+.footer__inner {
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: 32px 64px;
-  padding-block: 32px 48px;
-  border-top: 1px solid var(--line);
+  padding-block: 40px 48px;
   font-size: 14px;
-  scroll-margin-top: 40px;
 }
 .footer p { margin: 0 0 6px; }
 .footer__label {
@@ -489,12 +472,12 @@ img { display: block; max-width: 100%; }
   font-size: 12px;
   letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--footer-muted);
 }
 .footer ul { list-style: none; margin: 0; padding: 0; }
 .footer li { margin-bottom: 4px; }
-.footer a:hover { color: var(--pink-deep); }
-.footer__muted { color: var(--muted); }
+.footer a:hover { color: var(--pink); }
+.footer__muted { color: var(--footer-muted); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
@@ -521,7 +504,7 @@ img { display: block; max-width: 100%; }
   .work__grid { grid-template-columns: 1fr; gap: 40px; }
   .work__more { margin-top: 48px; }
 
-  .footer { grid-template-columns: 1fr 1fr; }
+  .footer__inner { grid-template-columns: 1fr 1fr; }
   .footer__contact { grid-column: 1 / -1; }
 }
 
