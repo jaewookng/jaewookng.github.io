@@ -73,6 +73,13 @@ if (mode && pipette) {
     rest();
   };
 
+  // Is this viewport point over the station? (geometry, so it works even right after a
+  // navigation when the browser hasn't re-hit-tested the fresh page yet)
+  const overStation = (x, y) => {
+    const m = mode.getBoundingClientRect();
+    return x >= m.left && x <= m.right && y >= m.top && y <= m.bottom;
+  };
+
   // Did the previous page hand us a held pipette?
   let saved = null;
   try {
@@ -85,8 +92,6 @@ if (mode && pipette) {
     last = { x: saved.x, y: saved.y };
     placeAt(last.x, last.y, GRIP);
     setHot(buttonAtTip());
-    // If the pointer has left the station meanwhile, let go on its first move.
-    document.addEventListener('pointermove', (e) => { if (!mode.contains(e.target)) release(); }, { once: true });
   } else {
     rest();
   }
@@ -94,15 +99,19 @@ if (mode && pipette) {
   window.addEventListener('load', () => { if (!following) rest(); });
 
   if (fine && !reduce) {
-    mode.addEventListener('pointerenter', hold);
-    mode.addEventListener('pointermove', (e) => {
-      if (!following) return;
+    // Holding is decided by where the pointer is on every move, not by enter/leave events
+    // (those are missed when the pointer is already over the station as a page loads).
+    document.addEventListener('pointermove', (e) => {
+      const inside = overStation(e.clientX, e.clientY);
+      if (inside && !following) hold();
+      if (!inside) { if (following) release(); return; }
       const m = mode.getBoundingClientRect();
       last = { x: e.clientX - m.left, y: e.clientY - m.top };
       placeAt(last.x, last.y, GRIP);
       setHot(buttonAtTip());
-    });
-    mode.addEventListener('pointerleave', release);
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => { if (following) release(); });
+
     // While holding: the click happens at the tip.
     mode.addEventListener('click', (e) => {
       if (!following || e.detail === 0) return;                       // keyboard: leave it alone
