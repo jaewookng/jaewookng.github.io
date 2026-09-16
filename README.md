@@ -16,7 +16,7 @@ Both pages have identical layout. Edit them in parallel when you change structur
 - **Dot grid** — a fixed layer masked to a grid of dots; a red hotspot inside it eases toward the cursor (`.dots` / `.dots__glow`). Tune colours with `--dots-*` and spacing with `--dot-gap` / `--dot-size` in `style.css`.
 - **Micropipette** — rests beside the Pro/Per switch; move the pointer into the toggle area and it becomes your cursor, leave and it glides back. The switch itself navigates instantly; the theme cross-fades via the View Transitions API where supported.
 - **Footer** — full-bleed, inverted: black on Pro, white on Per (`--footer-*` tokens).
-- **Protein-ladder scroll-nav** — a monochrome ladder on the right edge (black bands on Pro, white on Per): ten log-spaced bands with weight carried by thickness and opacity. Three bands are links — `#about` (~180), `#work` (~75), `#contact` (~25) — and the one for the section in view glows. Hover the lane for kDa labels; the dye front tracks scroll. Positions are the `--p` values in the HTML. Hidden under 900px wide or 460px tall.
+- **DNA-ladder scroll-nav** — a 1 kb DNA ladder on the right edge, drawn like an agarose gel under UV: dark lane, white fluorescent bands at the positions/brightness of the real ladder (25,000 → 250 bp). The bright 3,000 / 1,000 / 250 bp bands are the `#about` / `#work` / `#contact` links; the one for the section in view glows. Hover the lane for bp labels; the dye front tracks scroll. Positions are `--p`, brightness `--o`, in the HTML. Hidden under 900px wide or 460px tall.
 
 ## Customize
 

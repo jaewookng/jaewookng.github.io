@@ -377,33 +377,30 @@ img { display: block; max-width: 100%; }
 .js .reveal.is-visible { opacity: 1; transform: none; }
 
 /* ---------- Gel-electrophoresis scroll nav ---------- */
-/* A protein ladder on the right edge, in monochrome: black bands on the light page,
-   white on the dark one. Bands sit at log-spaced kDa positions; three of them
-   (about / work / contact) are links. The dye front tracks scroll. */
+/* A 1 kb DNA ladder on the right edge, drawn like an agarose gel under UV: dark lane,
+   white fluorescent bands. Positions and brightness follow the ladder (--p, --o).
+   Three bands (3,000 / 1,000 / 250 bp) are the about / work / contact links.
+   The dye front tracks scroll. */
 .gel {
   position: fixed;
   right: 22px;
   top: 50%;
   z-index: 10;
-  width: 26px;
+  width: 32px;
   height: 300px;
   transform: translateY(-50%);
-  --band: var(--fg);
-  --lane-bg: #ffffff;
-  --lane-line: #d6d6d6;
+  --lane-line: #3a3a3a;
 }
-:root[data-mode="per"] .gel {
-  --lane-bg: #1c1c1e;
-  --lane-line: #3a3a3e;
-}
+:root[data-mode="per"] .gel { --lane-line: #454549; }
 .gel[hidden] { display: none; }
 
 .gel__lane {
   position: absolute;
   inset: 0;
   border-radius: 3px;
-  background: var(--lane-bg);
+  background: linear-gradient(to bottom, #2c2c2c 0%, #1a1a1a 35%, #1e1e1e 70%, #262626 100%);
   border: 1px solid var(--lane-line);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, .6);
 }
 .gel__front {
   position: absolute;
@@ -411,54 +408,60 @@ img { display: block; max-width: 100%; }
   right: 0;
   top: 6px;
   height: 2px;
-  background: var(--band);
-  opacity: .35;
+  background: #fff;
+  opacity: .22;
   transition: top .12s linear;
 }
 
-/* Bands: --p is the position down the lane (0 = top, 1 = bottom).
-   Weight is carried by thickness and opacity, not colour. */
+/* Bands: --p is the position down the lane (0 = top, 1 = bottom), --o the brightness.
+   Soft top/bottom edges and a glow so they read as fluorescence, not bars. */
 .gel__band {
   position: absolute;
   left: 3px;
   right: 3px;
   top: calc(6px + var(--p) * (100% - 12px));
-  height: 3px;
-  margin-top: -1.5px;
+  height: 4px;
+  margin-top: -2px;
   border-radius: 2px;
-  background: var(--band);
-  color: var(--band);
-  box-shadow: 0 0 3px currentColor;
-  opacity: .55;
+  color: #fff;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 30%, #fff 70%, rgba(255, 255, 255, 0));
+  box-shadow: 0 0 4px 1px rgba(255, 255, 255, .55);
+  opacity: var(--o, .45);
   pointer-events: none;
   transition: box-shadow .3s var(--ease), opacity .3s var(--ease);
 }
-.gel__band--light { height: 2.5px; opacity: .35; }
-.gel__band--heavy { height: 4px; margin-top: -2px; opacity: .8; }
 
-/* The three marker bands are links: full weight, and a glow when hovered / active */
-.gel__band.is-marker { pointer-events: auto; opacity: 1; height: 4px; margin-top: -2px; }
+/* The three marker bands are links: the bright bands of the ladder */
+.gel__band.is-marker {
+  pointer-events: auto;
+  height: 6px;
+  margin-top: -3px;
+  opacity: 1;
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, .8);
+}
 .gel__band.is-marker:hover,
 .gel__band.is-marker:focus-visible,
-.gel__band.is-marker.is-active { box-shadow: 0 0 9px 2px currentColor; }
-.gel__band.is-marker:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.gel__band.is-marker.is-active { box-shadow: 0 0 12px 3px rgba(255, 255, 255, .95); }
+.gel__band.is-marker:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
 
-/* Labels sit to the left of the lane. kDa marks show when hovering the ladder;
-   section names show on hover / focus / active. */
-.gel__band[data-kda]::after,
+/* Labels sit to the left of the lane with a short tick line, like the bp column.
+   bp values show when hovering the ladder; section names on hover / focus / active. */
+.gel__band[data-bp]::after,
 .gel__label {
   position: absolute;
-  right: calc(100% + 12px);
+  right: 100%;
   top: 50%;
   transform: translateY(-50%);
+  padding-right: 16px;
   white-space: nowrap;
   line-height: 1;
   pointer-events: none;
   opacity: 0;
+  background: linear-gradient(currentColor, currentColor) right center / 10px 1px no-repeat;
   transition: opacity .2s var(--ease);
 }
-.gel__band[data-kda]::after {
-  content: attr(data-kda);
+.gel__band[data-bp]::after {
+  content: attr(data-bp);
   font-size: 10px;
   letter-spacing: .02em;
   color: var(--muted);
@@ -469,7 +472,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: .02em;
   color: var(--fg);
 }
-.gel:hover .gel__band[data-kda]::after,
+.gel:hover .gel__band[data-bp]::after,
 .gel:hover .gel__label,
 .gel__band:focus-visible .gel__label,
 .gel__band.is-active .gel__label { opacity: 1; }
