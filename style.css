@@ -263,7 +263,9 @@ img { display: block; max-width: 100%; }
   border-radius: var(--r-sm);
   transition: background-color .25s var(--ease), color .25s var(--ease);
 }
-.mode__btn:hover { color: var(--station-fg); }
+/* Hover follows the hand normally; while the pipette is held it follows the tip instead. */
+.mode:not(.is-holding) .mode__btn:hover,
+.mode__btn.is-hot { color: var(--station-fg); }
 .mode__btn.is-active {
   background: #1d1419;
   color: #ffffff;

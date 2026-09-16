@@ -25,17 +25,20 @@ if (reduce || !('IntersectionObserver' in window)) {
 
 /* ---------- Micropipette ----------
    Rests beside the toggle. Move the pointer onto the station and the hand cursor picks
-   the pipette up, tip at the pointer; leave and it glides back. The Pro/Per links navigate
-   normally; the view transition cross-fades the theme. */
+   the pipette up by its body; while it's held, clicks register where the TIP is, not
+   where the hand is (the button under the tip is highlighted so you can aim). Leave and
+   it glides back. Pro/Per navigate normally; the view transition cross-fades the theme. */
 const mode = document.querySelector('.mode');
 const pipette = document.querySelector('.pipette');
 if (mode && pipette) {
   const pill = mode.querySelector('.mode__pill');
+  const buttons = [...mode.querySelectorAll('.mode__btn')];
   const fine = window.matchMedia('(pointer: fine)').matches;
   let following = false;
 
-  // The tip of the pipette (viewBox 28x80) is the anchor: at rest and when held.
+  // Points on the pipette (viewBox 28x80): the tip, and where the hand grips the body.
   const TIP = [14, 76];
+  const GRIP = [14, 34];
   const placeAt = (x, y, [ax, ay]) => {
     const r = pipette.getBoundingClientRect();
     pipette.style.transform = `translate(${x - r.width * ax / 28}px, ${y - r.height * ay / 80}px)`;
@@ -49,20 +52,40 @@ if (mode && pipette) {
   window.addEventListener('resize', rest);
   window.addEventListener('load', rest);
 
+  // The button under the tip (viewport coords), if any.
+  const buttonAtTip = () => {
+    const r = pipette.getBoundingClientRect();
+    const el = document.elementFromPoint(r.left + r.width * TIP[0] / 28, r.top + r.height * TIP[1] / 80);
+    return el ? el.closest('.mode__btn') : null;
+  };
+  const setHot = (btn) => buttons.forEach((b) => b.classList.toggle('is-hot', b === btn));
+
   if (fine && !reduce) {
     mode.addEventListener('pointerenter', () => {
       following = true;
+      mode.classList.add('is-holding');
       pipette.classList.add('is-following');
     });
     mode.addEventListener('pointermove', (e) => {
       if (!following) return;
       const m = mode.getBoundingClientRect();
-      placeAt(e.clientX - m.left, e.clientY - m.top, TIP);
+      placeAt(e.clientX - m.left, e.clientY - m.top, GRIP);
+      setHot(buttonAtTip());
     });
     mode.addEventListener('pointerleave', () => {
       following = false;
+      mode.classList.remove('is-holding');
       pipette.classList.remove('is-following');
+      setHot(null);
       rest();
+    });
+    // While holding: the click happens at the tip.
+    mode.addEventListener('click', (e) => {
+      if (!following || e.detail === 0) return;                       // keyboard: leave it alone
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      const btn = buttonAtTip();
+      if (btn && !btn.classList.contains('is-active')) window.location.href = btn.href;
     });
   }
 }
