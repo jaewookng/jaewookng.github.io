@@ -341,6 +341,7 @@ img { display: block; max-width: 100%; }
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
+  border: 1px solid var(--line);   /* keeps light thumbnails from blending into the page */
   border-radius: var(--r-md);
   background: var(--surface-2);
 }
@@ -412,6 +413,29 @@ img { display: block; max-width: 100%; }
   color: var(--muted);
   max-width: 46ch;
 }
+
+/* A card that bundles several repos: chips instead of one card-wide link */
+.project__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.project__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--bg);
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.project__links a:hover { color: var(--pink-deep); border-color: var(--pink); }
 
 .work__more {
   display: inline-flex;

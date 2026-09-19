@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=19">
+  <link rel="stylesheet" href="style.css?v=20">
 </head>
 <body>
   <div class="dots" aria-hidden="true"><div class="dots__glow"></div></div>
@@ -77,16 +77,20 @@
             <p class="project__desc">A disability-led community research &amp; development lab in Austin — a 501(c)(3) building practical new models for care, access, and connection. Care is infrastructure.</p>
           </a>
 
-          <a class="project reveal" href="#">
+          <div class="project reveal">
             <div class="project__media">
-              <img src="assets/projects/project-3.jpg" alt="" width="1200" height="750" loading="lazy">
+              <img src="assets/projects/project-3.jpg?v=2" alt="Training accuracy and loss curves and retinal fundus images from the ArMD-NN notebook" width="1600" height="1000" loading="lazy">
             </div>
             <div class="project__meta">
-              <h3 class="project__title">Project three</h3>
-              <span class="project__tag">access</span>
+              <h3 class="project__title">Jupyter Notebooks (coursework)</h3>
+              <span class="project__tag">notebooks</span>
             </div>
-            <p class="project__desc">One or two lines on what this was, who it was for, and what you did.</p>
-          </a>
+            <p class="project__desc">Computational physics projects for PHY 329, and ArMD-NN — a CNN classifying age-related macular degeneration from retinal fundus images, paired with DESeq2 differential expression on AMD retina RNA-seq.</p>
+            <ul class="project__links">
+              <li><a href="https://github.com/jaewookng/phy329_projects" target="_blank" rel="noopener">phy329_projects <span aria-hidden="true">↗</span></a></li>
+              <li><a href="https://github.com/jaewookng/ArMD-NN" target="_blank" rel="noopener">ArMD-NN <span aria-hidden="true">↗</span></a></li>
+            </ul>
+          </div>
 
           <a class="project reveal" href="#">
             <div class="project__media">
@@ -146,6 +150,6 @@
     <a    class="gel__band is-marker" href="#contact" style="--p: .896; --h: 4px"><span class="gel__label">contact</span></a>
   </nav>
 
-  <script src="script.js?v=19"></script>
+  <script src="script.js?v=20"></script>
 </body>
 </html>
