@@ -7,7 +7,7 @@ Static portfolio site for GitHub Pages. No build step.
 - `style.css` — shared styles; the theme is driven by `data-mode="pro|per"` on `<html>`
 - `script.js` — progressive enhancement: fade-in on scroll, the cursor-following pipette, the gel scroll-nav, and the cursor-following dot glow. Without JS everything still works as plain links.
 - `assets/photo.jpg` — portrait for the Pro page; `assets/photo-personal.jpg` — portrait for the Per page (both cropped to 7:8)
-- `assets/projects/project-{1..4}.jpg` — Pro page project images; `assets/projects/personal-{1..4}.jpg` — Per page project images (16:10; placeholders are pink gradients). The two pages don't share project images.
+- `assets/projects/project-{1..3}.jpg` — Pro page project images; `assets/projects/personal-{1..3}.jpg` — Per page project images (16:10; placeholders are pink gradients). The two pages don't share project images.
 
 Both pages have identical layout but their own copy (about text, project cards). Edit them in parallel when you change structure.
 
@@ -23,7 +23,7 @@ Assets and the Pro/Per toggle links carry a version query (`style.css?v=N`, `per
 ## Customize
 
 1. For each project: swap the image in `assets/projects/`, then set the title, tag, description, and `href` in the HTML. A card can carry a second image (`<img class="project__media-alt">` plus a `.project__bts` tag) that fades in on hover — see the Dermodel card.
-2. Set the YouTube channel URL in the footer (LinkedIn is already linked).
+2. Footer socials link to LinkedIn and YouTube (`@jaewookng`).
 
 ## Deploy to GitHub Pages
 
