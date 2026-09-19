@@ -118,15 +118,16 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 120vmax;
-  height: 120vmax;
-  margin: -60vmax 0 0 -60vmax;   /* centre the glow on its transform origin */
+  width: 100vmax;
+  height: 100vmax;
+  margin: -50vmax 0 0 -50vmax;   /* centre the glow on its transform origin */
   border-radius: 50%;
   background: radial-gradient(circle,
     var(--dots-hot) 0%,
+    var(--dots-hot) 6%,
     var(--dots-mid) 16%,
-    var(--dots-far) 36%,
-    transparent 58%);
+    var(--dots-far) 30%,
+    transparent 46%);
   transform: translate3d(50vw, 50vh, 0);   /* centred until the cursor moves */
   will-change: transform;
 }
