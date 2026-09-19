@@ -22,7 +22,7 @@ Assets and the Pro/Per toggle links carry a version query (`style.css?v=N`, `per
 
 ## Customize
 
-1. For each project: swap the image in `assets/projects/`, then set the title, tag, description, and `href` in the HTML.
+1. For each project: swap the image in `assets/projects/`, then set the title, tag, description, and `href` in the HTML. A card can carry a second image (`<img class="project__media-alt">` plus a `.project__bts` tag) that fades in on hover — see the Dermodel card.
 2. Set the YouTube channel URL in the footer (LinkedIn is already linked), and the `view more projects` link.
 
 ## Deploy to GitHub Pages

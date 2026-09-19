@@ -338,6 +338,7 @@ img { display: block; max-width: 100%; }
 .project { display: block; }
 
 .project__media {
+  position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border-radius: var(--r-md);
@@ -347,9 +348,34 @@ img { display: block; max-width: 100%; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .8s var(--ease);
+  transition: transform .8s var(--ease), opacity .5s var(--ease);
 }
 .project:hover .project__media img { transform: scale(1.03); }
+
+/* Optional second image: fades in over the first on hover (behind-the-scenes shot) */
+.project__media-alt {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.project__bts {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: #fff;
+  background: rgba(0, 0, 0, .55);
+  border-radius: var(--r-sm);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.project:hover .project__media-alt,
+.project:focus-visible .project__media-alt { opacity: 1; }
+.project:hover .project__bts,
+.project:focus-visible .project__bts { opacity: 1; transform: none; }
 
 .project__meta {
   display: flex;
