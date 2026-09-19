@@ -118,9 +118,9 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vmax;
-  height: 100vmax;
-  margin: -50vmax 0 0 -50vmax;   /* centre the glow on its transform origin */
+  width: 60vmax;
+  height: 60vmax;
+  margin: -30vmax 0 0 -30vmax;   /* centre the glow on its transform origin */
   border-radius: 50%;
   background: radial-gradient(circle,
     var(--dots-hot) 0%,
